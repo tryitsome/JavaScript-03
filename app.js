@@ -174,15 +174,32 @@ btnEnvoyer.style.borderRadius = '5px';
 btnEnvoyer.style.padding = '10px';
 btnEnvoyer.style.fontSize = '20px';
 
-btnEnvoyer.addEventListener('click', function(){
+btnEnvoyer.addEventListener('click', function () {
   const nom = document.getElementById('nom').value;
   const prenom = document.getElementById('prenom').value;
   const email = document.getElementById('email').value;
   const message = document.getElementById('message').value;
 
+  fetch("https://formspree.io/f/xwpqbjdy", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: prenom + " " + nom,
+      email: email,
+      message: message
+    })
+  })
+  .then(response => {
+    if (response.ok) {
+      alert(`Merci ${prenom} ${nom} ! Votre message a bien été envoyé !`);
+    } else {
+      alert("Erreur lors de l’envoi du message.");
+    }
+  });
+});
 
-  alert(`Merci ${prenom} ${nom} !\n C'est carré brother pour le message`);
-})
 
 conteneurEntier.append(btnEnvoyer);
 document.body.appendChild(conteneurEntier);
